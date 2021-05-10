@@ -16,7 +16,6 @@ const Chat = () => {
 
     const submitMessage = (e) => {
         e.preventDefault();
-        console.log("con");
         socket.send(mess);
     };
 
