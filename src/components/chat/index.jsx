@@ -1,36 +1,43 @@
-import { useContext, useState,useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { socketContext } from "../../socketContext";
+import { useHistory } from "react-router-dom";
 import Message from "../message";
 
-const Chat = () => {
+const Chat = ({ username }) => {
+    const history = useHistory();
     const socket = useContext(socketContext);
-    const [mess, setMess] = useState("");
+    const [body, setBody] = useState("");
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        socket.on("message", (data) => {
-            setMessages([...messages, data]);
-            setMess("");
+        if (!username) history.replace("/");
+        socket.on("message", (msg) => {
+            setMessages([...messages, msg]);
+            setBody("");
         });
     });
 
     const submitMessage = (e) => {
         e.preventDefault();
-        socket.send(mess);
+        socket.send({ username, body });
     };
 
     return (
         <div>
-            {messages.map((msg, i) => (
-                <Message body={msg} key={i} />
-            ))}
+            {messages.map((msg, i) =>
+                msg.body ? (
+                    <Message body={msg.body} user={msg.username} key={i} />
+                ) : (
+                    ""
+                )
+            )}
             <form onSubmit={submitMessage}>
                 <input
                     type="text"
                     name="inp"
                     id="inp"
-                    value={mess}
-                    onChange={(e) => setMess(e.target.value)}
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
                 />
                 <button type="submit">send</button>
             </form>
