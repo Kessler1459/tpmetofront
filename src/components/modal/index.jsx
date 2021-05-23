@@ -1,13 +1,12 @@
-import { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import { socketContext } from "../../socketContext";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import styles from "./modal.module.css";
 
-const Home = ({ setUsername }) => {
+const Modal = ({ setUsername, socket, setModal }) => {
     const [text, setText] = useState("");
-    const socket = useContext(socketContext);
-    const history = useHistory();
+    const { roomId } = useParams();
     return (
-        <>
+        <div className={styles.modal}>
             <h3>Choose your alias</h3>
             <input
                 value={text}
@@ -20,15 +19,14 @@ const Home = ({ setUsername }) => {
                 onClick={() => {
                     setUsername(text);
                     setText("");
-                    const date=Date.now();
-                    socket.emit("login", { name: text, room: date });
-                    history.push("/"+date);
+                    socket.emit("login", { name: text, room: roomId });
+                    setModal(false);
                 }}
             >
-                Create room
+                Join room
             </button>
-        </>
+        </div>
     );
 };
 
-export default Home;
+export default Modal;
