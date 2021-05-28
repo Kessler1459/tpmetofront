@@ -21,7 +21,8 @@ const Home = ({ setUsername }) => {
                     setUsername(text);
                     setText("");
                     const date=Date.now();
-                    socket.emit("login", { name: text, room: date });
+                    socket.emit("create",{name: text, room: date})
+                    //socket.emit("login", { name: text, room: date });
                     history.push("/"+date);
                 }}
             >

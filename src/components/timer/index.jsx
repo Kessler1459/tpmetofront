@@ -1,40 +1,36 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-const Timer= ({socket}) => {
+import * as workerTimers from "worker-timers";
 
-  const timer = 10;
-
-  const [seconds, setSeconds] = useState(timer);
-  const { roomId } = useParams();
-  const history = useHistory();
-  
-
+const Timer = ({ socket }) => {
+    const [seconds, setSeconds] = useState();
+    const { roomId } = useParams();
+    const history = useHistory();
 
     useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds(seconds => seconds - 1);
-      if (seconds === 0) {
-        console.log("hola");
-        socket.emit("timeout", roomId);
-         history.push("/");
-      }
-     
-    },1000);    
-    return () => clearInterval(interval);
-  }, [seconds,history,roomId,socket]);
+        socket.on("timer", (remainingMs) => {
+            setSeconds(Math.trunc(remainingMs / 1000));
+        });
+        const interval = workerTimers.setInterval(() => {
+            setSeconds((seconds) => seconds - 1);
+            if (seconds === 0) {
+                console.log("hola");
+                socket.emit("timeout", roomId);
+				//aca un disconect talvez
+				socket.close();
+                history.push("/");
+            }
+        }, 1000);
+        return () => {
+            workerTimers.clearInterval(interval);
+        };
+    });
 
+    return (<>
+        <div>{seconds ? <h3>Your time will end in {seconds}</h3> : null}</div>
+		<button onClick={()=>socket.emit("reset")}> reset</button></>
+		);
+};
 
-     
-
-    return (
-        <div >
-          <h3 >
-                Your time will end in {seconds} 
-          </h3>
-        </div>
-    );
-
-}
-
-export default Timer ;
+export default Timer;
