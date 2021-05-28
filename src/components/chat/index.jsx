@@ -3,6 +3,7 @@ import { socketContext } from "../../socketContext";
 import Modal from "../modal";
 import Message from "../message";
 import Alert from "../alert";
+import Timer from "../timer";
 
 
 const Chat = ({ username, setUsername }) => {
@@ -45,26 +46,32 @@ const Chat = ({ username, setUsername }) => {
     };
 
     return (
-        <div>
-            {messages}
-            <form onSubmit={submitMessage}>
-                <input
-                    type="text"
-                    name="inp"
-                    id="inp"
-                    value={body}
-                    onChange={(e) => setBody(e.target.value)}
-                />
-                <button type="submit">send</button>
-            </form>
-            {showModal ? (
-                <Modal
-                    setUsername={setUsername}
-                    socket={socket}
-                    setModal={setModal}
-                />
+      <div>
+        {messages}
+        <form onSubmit={submitMessage}>
+          <input
+            type="text"
+            name="inp"
+            id="inp"
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+          />
+          <button type="submit">send</button>
+        </form>
+        {showModal ? (
+          <Modal
+            setUsername={setUsername}
+            socket={socket}
+            setModal={setModal}
+          />
             ) : null}
-        </div>
+            
+         <Timer 
+         socket={socket}
+        />
+      </div>
+
+        
     );
 };
 export default Chat;
