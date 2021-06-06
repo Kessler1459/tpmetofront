@@ -15,9 +15,7 @@ const Timer = ({ socket }) => {
         const interval = workerTimers.setInterval(() => {
             setSeconds((seconds) => seconds - 1);
             if (seconds === 0) {
-                console.log("hola");
                 socket.emit("timeout", roomId);
-				//aca un disconect talvez
 				socket.close();
                 history.push("/");
             }
