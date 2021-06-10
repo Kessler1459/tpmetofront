@@ -3,6 +3,7 @@ import { socketContext } from "../../socketContext";
 import Modal from "../modal";
 import MessagesBox from "../messagesBox";
 import Timer from "../timer";
+import Members from "../members";
 
 const Chat = ({ username, setUsername }) => {
     const socket = useContext(socketContext);
@@ -52,6 +53,8 @@ const Chat = ({ username, setUsername }) => {
             ) : null}
 
             <Timer socket={socket} />
+
+            <Members socket={socket} />
         </div>
     );
 };
