@@ -30,7 +30,7 @@ const Timer = ({ socket }) => {
             <div>
                 {seconds ? <h3>Remaining time: {format(seconds)}</h3> : null}
             </div>
-            <button onClick={() => socket.emit("reset")}> reset</button>
+            <button onClick={() => socket.emit("reset")}> Restart</button>
         </>
     );
 };

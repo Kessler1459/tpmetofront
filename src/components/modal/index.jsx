@@ -7,24 +7,26 @@ const Modal = ({ setUsername, socket, setModal }) => {
     const { roomId } = useParams();
     return (
         <div className={styles.modal}>
-            <h3>Choose your alias</h3>
-            <input
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                type="text"
-                name="username"
-                id="username"
-            />
-            <button
-                onClick={() => {
-                    setUsername(text);
-                    setText("");
-                    socket.emit("login", { name: text, room: roomId });
-                    setModal(false);
-                }}
-            >
-                Join room
-            </button>
+            <section className={styles.content}>
+                <h3>Choose your alias</h3>
+                <input
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    type="text"
+                    name="username"
+                    id="username"
+                />
+                <button
+                    onClick={() => {
+                        setUsername(text);
+                        setText("");
+                        socket.emit("login", { name: text, room: roomId });
+                        setModal(false);
+                    }}
+                >
+                    Join room
+                </button>
+            </section>
         </div>
     );
 };

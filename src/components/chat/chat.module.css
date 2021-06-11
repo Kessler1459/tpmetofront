@@ -1,0 +1,16 @@
+.chat{
+    border: black 2px solid;
+    background-color:rgb(231, 231, 231);
+    border-radius: 1rem;
+    margin-top: 3vh;
+    margin-left: 3vw;
+    margin-right: 3vw;
+}
+
+.form{
+    width:100%
+}
+
+.form input{
+    width: 80%;
+}

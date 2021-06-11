@@ -4,6 +4,7 @@ import Modal from "../modal";
 import MessagesBox from "../messagesBox";
 import Timer from "../timer";
 import Members from "../members";
+import styles from "./chat.module.css";
 
 const Chat = ({ username, setUsername }) => {
     const socket = useContext(socketContext);
@@ -42,17 +43,21 @@ const Chat = ({ username, setUsername }) => {
 
     return (
         <div>
-            <MessagesBox contentArray={messages}></MessagesBox>
-            <form onSubmit={submitMessage}>
-                <input
-                    type="text"
-                    name="inp"
-                    id="inp"
-                    value={body}
-                    onChange={(e) => setBody(e.target.value)}
-                />
-                <button type="submit">send</button>
-            </form>
+            <Members members={members} />
+            <section className={styles.chat}>
+                <MessagesBox contentArray={messages}></MessagesBox>
+                <form  onSubmit={submitMessage}>
+                    <input
+                        type="text"
+                        name="inp"
+                        id="inp"
+                        value={body}
+                        onChange={(e) => setBody(e.target.value)}
+                    />
+                    <button type="submit">Send</button>
+                </form>
+            </section>
+
             {showModal ? (
                 <Modal
                     setUsername={setUsername}
@@ -60,10 +65,7 @@ const Chat = ({ username, setUsername }) => {
                     setModal={setModal}
                 />
             ) : null}
-
             <Timer socket={socket} />
-
-            <Members members={members} />
         </div>
     );
 };

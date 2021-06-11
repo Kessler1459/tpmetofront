@@ -1,4 +1,3 @@
-import "./App.css";
 import { useState } from "react";
 import Chat from "./components/chat";
 import { socketContext,socket } from "./socketContext";
@@ -8,7 +7,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 function App() {
     const [username, setUsername] = useState("");
     return (
-        <div className="App">
+        <div className="container">
             <socketContext.Provider value={socket}>
                 <BrowserRouter>
                     <Switch>
