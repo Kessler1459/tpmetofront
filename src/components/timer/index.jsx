@@ -16,7 +16,7 @@ const Timer = ({ socket }) => {
             setSeconds((seconds) => seconds - 1);
             if (seconds === 0) {
                 socket.emit("timeout", roomId);
-				socket.close();
+                socket.close();
                 history.push("/");
             }
         }, 1000);
@@ -25,10 +25,28 @@ const Timer = ({ socket }) => {
         };
     });
 
-    return (<>
-        <div>{seconds ? <h3>Your time will end in {seconds}</h3> : null}</div>
-		<button onClick={()=>socket.emit("reset")}> reset</button></>
-		);
+    return (
+        <>
+            <div>
+                {seconds ? <h3>Remaining time: {format(seconds)}</h3> : null}
+            </div>
+            <button onClick={() => socket.emit("reset")}> reset</button>
+        </>
+    );
+};
+
+const format = (sec) => {
+    var hrs = ~~(sec / 3600);
+    var mins = ~~((sec % 3600) / 60);
+    var secs = ~~sec % 60;
+
+    var ret = "";
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
 };
 
 export default Timer;
