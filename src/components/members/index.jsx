@@ -1,17 +1,14 @@
-
 const Members = ({ members }) => {
 
-
     return (
-        <div >
-          <h2>Members</h2>
-            <ul> 
-                {members.map(member => (
-                <li key={member.id}>{member}</li>
-                ))}                
+        <div>
+            <h2>Members</h2>
+            <ul>
+                {members.map((member,i) => (
+                    <li key={i}>{member}</li>
+                ))}
             </ul>
-        </div>		
-	);
+        </div>
+    );
 };
-export default Members ;
-
+export default Members;

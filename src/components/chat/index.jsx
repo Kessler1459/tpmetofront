@@ -16,29 +16,23 @@ const Chat = ({ username, setUsername }) => {
         if (!username) setModal(true);
         socket.on("alert", (alert) => {
             setMessages((messages) => [...messages, alert]);
-            if (alert) {
-                
-               setMembers((members) => [...members, members ])
-
+            if (alert.connected) {
+                setMembers((members) => [...members, alert.user]);
             } else {
-
-
+                setMembers(members.filter((m) => m !== alert.user));
             }
-        });   
+        });
         socket.on("message", (msg) => {
             setMessages((messages) => [...messages, msg]);
         });
         socket.on("prevMessages", (prevMessages) => {
             setMessages(prevMessages);
         });
-
         socket.on("members", (mem) => {
             setMembers(mem);
         });
-    
-
         return () => socket.removeAllListeners();
-    }, [messages, socket, username,members]);
+    }, [messages, socket, username, members]);
 
     const submitMessage = (e) => {
         e.preventDefault();
