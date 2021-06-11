@@ -10,20 +10,35 @@ const Chat = ({ username, setUsername }) => {
     const [showModal, setModal] = useState(false);
     const [body, setBody] = useState("");
     const [messages, setMessages] = useState([]);
+    const [members, setMembers] = useState([]);
 
     useEffect(() => {
         if (!username) setModal(true);
         socket.on("alert", (alert) => {
             setMessages((messages) => [...messages, alert]);
-        });
+            if (alert) {
+                
+               setMembers((members) => [...members, members ])
+
+            } else {
+
+
+            }
+        });   
         socket.on("message", (msg) => {
             setMessages((messages) => [...messages, msg]);
         });
         socket.on("prevMessages", (prevMessages) => {
             setMessages(prevMessages);
         });
+
+        socket.on("members", (mem) => {
+            setMembers(mem);
+        });
+    
+
         return () => socket.removeAllListeners();
-    }, [messages, socket, username]);
+    }, [messages, socket, username,members]);
 
     const submitMessage = (e) => {
         e.preventDefault();
@@ -54,7 +69,7 @@ const Chat = ({ username, setUsername }) => {
 
             <Timer socket={socket} />
 
-            <Members socket={socket} />
+            <Members members={members} />
         </div>
     );
 };

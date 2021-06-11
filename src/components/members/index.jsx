@@ -1,19 +1,9 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-const Members = ({ socket }) => {
 
-    const [members, setMember] = useState([]);
-    const { roomId } = useParams();
+const Members = ({ members }) => {
 
-    useEffect(() => {
-
-        return () => {
-            
-        }
-    }, [members]);
 
     return (
-        <div className="col-md-8">
+        <div >
           <h2>Members</h2>
             <ul> 
                 {members.map(member => (
